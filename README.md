@@ -49,7 +49,7 @@ Based on the official Docker images:
 ### Host setup
 
 1. Install [Docker](https://www.docker.com/community-edition#/download) version **1.10.0+**
-2. Install [Docker Compose](https://docs.docker.com/compose/install/) version **1.6.0+**
+2. Install [Docker Compose](https://docs.docker.com/compose/install/) version **1.16.0+**
 3. Clone this repository
 
 ### SELinux
