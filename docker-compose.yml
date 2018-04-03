@@ -1,4 +1,4 @@
-version: '2'
+version: '2.3'
 
 services:
 
@@ -14,6 +14,8 @@ services:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
     networks:
       - elk
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:9200']
 
   logstash:
     build:
@@ -42,7 +44,10 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
+      kibana:
+        condition: service_healthy
 
   kibana:
     build:
@@ -53,8 +58,11 @@ services:
       - "5601:5601"
     networks:
       - elk
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:5601/api/status']
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
 networks:
 
