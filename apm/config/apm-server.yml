@@ -3,6 +3,8 @@ apm-server:
 
 output.elasticsearch:
   hosts: ['elasticsearch:9200']
+  username: "elastic"
+  password: "elasticpass"
 
 setup.dashboards.enabled: '${GENERATE_DASHBOARDS}'
 
@@ -10,4 +12,6 @@ setup.kibana:
   host: "kibana:5601"
   protocol: "http"
   ssl.enabled: false
+  username: "kibana"
+  password: "elasticpass"
 

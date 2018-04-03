@@ -12,10 +12,11 @@ services:
       - "9300:9300"
     environment:
       ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+      ELASTIC_PASSWORD: elasticpass
     networks:
       - elk
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:9200']
+      test: ['CMD', 'curl', '-f', '-u', 'elastic:elasticpass', 'http://localhost:9200']
 
   logstash:
     build:
@@ -30,7 +31,8 @@ services:
     networks:
       - elk
     depends_on:
-      - elasticsearch
+      elasticsearch:
+        condition: service_healthy
 
   apm:
     build:
@@ -59,7 +61,7 @@ services:
     networks:
       - elk
     healthcheck:
-      test: ['CMD', 'curl', '-f', 'http://localhost:5601/api/status']
+      test: ['CMD', 'curl', '-f', '-u', 'elastic:elasticpass', 'http://localhost:5601/api/status']
     depends_on:
       elasticsearch:
         condition: service_healthy
